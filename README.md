@@ -129,4 +129,3 @@ You are free to import the latex source files into Overleaf.
 - Overview of workflow runs directly from VSCode
 
 ![Alt text](images/githubactions.png)
-
