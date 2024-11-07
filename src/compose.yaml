@@ -1,0 +1,27 @@
+#specify the version of docker compose
+version: "3.8"
+
+services:
+  peeler-service:
+    build: 
+      context: ./peeler
+    
+    environment:
+      MONGODB_URI: "mongodb+srv://admin:admin123@cluster0.k0olb.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    ports:
+      - "8000:8000"  # Map container port to host
+
+    #develop:
+     # we specify the files to watch for changes
+      #watch:
+       #- path: ./peeler
+        # action: rebuild
+  monitoring-service:
+    build:
+      context: ./monitoring 
+    ports:
+      - "8000:8000"   
+    depends_on:
+      - peeler-service  # This ensures the peeler-service starts first
+
+   # environment:

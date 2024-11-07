@@ -1,12 +1,11 @@
-# Use an official base image, like Alpine, Ubuntu, Node, etc.
-# Alpine is lightweight, and thus generally faster to pull and build
-FROM node:14-alpine
+# Starting from official base image for python
+FROM python:3.13.0
 
 # Set environment variables
 # ENV VAR_NAME=var_value
 
 # Set the working directory inside the container
-WORKDIR /usr/src/app
+WORKDIR /app
 
 # Copy package.json and package-lock.json first to leverage Docker caching
 ## COPY package*.json ./
@@ -24,4 +23,4 @@ COPY . .
 EXPOSE 8080
 
 # The command to run your application
-CMD ["npm", "start"]
+CMD ["python", "main.py"]
