@@ -1,5 +1,8 @@
 # Advanced Software Architecture and Analysis Portfolio Template
+## How to run and build
+You need to have the Docker Desktop application installed. For building and running the project, make sure that the Docker Desktop is running and run the 'docker compose up' command in the root directory.
 
+## structure
 - [Introduction](#introduction)
   - [.github](#github)
     - [CI/CD Workflow](#cicd-workflow)
