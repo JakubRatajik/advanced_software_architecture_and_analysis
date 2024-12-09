@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE nta PUBLIC '-//Uppaal Team//DTD Flat System 1.6//EN' 'http://www.it.uu.se/research/group/darts/uppaal/flat-1_6.dtd'>
+<nta>
+	<declaration>// Place global declarations here.
+clock time = 0;
+
+chan notification; 
+chan check_enough;
+chan its_enough;
+chan resource_ready;
+</declaration>
+	<template>
+		<name>PeelingCheckerSensor</name>
+		<declaration>bool peeled_enough; </declaration>
+		<location id="id0" x="-416" y="-17">
+		</location>
+		<location id="id1" x="0" y="-17">
+		</location>
+		<location id="id2" x="382" y="-17">
+		</location>
+		<init ref="id0"/>
+		<transition id="id3">
+			<source ref="id1"/>
+			<target ref="id1"/>
+			<label kind="assignment" x="-76" y="127">peeled_enough = false</label>
+			<nail x="76" y="102"/>
+			<nail x="-68" y="102"/>
+		</transition>
+		<transition id="id4">
+			<source ref="id1"/>
+			<target ref="id2"/>
+			<label kind="assignment" x="119" y="-8">peeled_enough = true</label>
+		</transition>
+		<transition id="id5">
+			<source ref="id2"/>
+			<target ref="id0"/>
+			<label kind="synchronisation" x="-85" y="-178">its_enough!</label>
+			<nail x="382" y="-144"/>
+			<nail x="-416" y="-144"/>
+		</transition>
+		<transition id="id6">
+			<source ref="id0"/>
+			<target ref="id1"/>
+			<label kind="synchronisation" x="-263" y="0">check_enough?</label>
+		</transition>
+	</template>
+	<template>
+		<name>Monitoring</name>
+		<location id="id7" x="-518" y="-119">
+			<name x="-697" y="-127">waiting_for_message</name>
+		</location>
+		<location id="id8" x="-178" y="-119">
+			<name x="-153" y="-127">message_received</name>
+		</location>
+		<init ref="id7"/>
+		<transition id="id9">
+			<source ref="id8"/>
+			<target ref="id7"/>
+			<nail x="-357" y="-42"/>
+		</transition>
+		<transition id="id10">
+			<source ref="id7"/>
+			<target ref="id8"/>
+			<label kind="synchronisation" x="-408" y="-229">notification?</label>
+			<nail x="-357" y="-195"/>
+		</transition>
+	</template>
+	<template>
+		<name x="5" y="5">PeelingMachine</name>
+		<declaration>// Place local declarations here.
+bool ripped = false;
+
+int resource;
+const int orange = 0;
+const int apple = 1;
+</declaration>
+		<location id="id11" x="68" y="-8">
+			<name x="-17" y="8">resource_recognition</name>
+		</location>
+		<location id="id12" x="-365" y="-127">
+			<name x="-425" y="-136">Idle</name>
+		</location>
+		<location id="id13" x="68" y="-127">
+			<name x="-78" y="-169">checking_ripeness_of_the_resource</name>
+		</location>
+		<location id="id14" x="680" y="-127">
+			<name x="705" y="-136">throw_out_resource</name>
+		</location>
+		<location id="id15" x="255" y="170">
+			<name x="255" y="187">skin_peeling</name>
+		</location>
+		<location id="id16" x="-110" y="170">
+			<name x="-212" y="187">zest_peeling</name>
+		</location>
+		<location id="id17" x="85" y="348">
+			<name x="34" y="365">peeling_done</name>
+		</location>
+		<init ref="id12"/>
+		<transition id="id18">
+			<source ref="id15"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="161" y="280">its_enough?</label>
+		</transition>
+		<transition id="id19">
+			<source ref="id16"/>
+			<target ref="id17"/>
+			<label kind="synchronisation" x="-93" y="280">its_enough?</label>
+		</transition>
+		<transition id="id20">
+			<source ref="id17"/>
+			<target ref="id12"/>
+			<label kind="synchronisation" x="-476" y="204">notification!</label>
+			<label kind="assignment" x="-442" y="238">time = 0</label>
+			<nail x="-365" y="348"/>
+		</transition>
+		<transition id="id21">
+			<source ref="id16"/>
+			<target ref="id14"/>
+			<label kind="guard" x="144" y="-331">time &gt;= 60</label>
+			<nail x="-280" y="170"/>
+			<nail x="-280" y="-297"/>
+			<nail x="680" y="-297"/>
+		</transition>
+		<transition id="id22">
+			<source ref="id15"/>
+			<target ref="id14"/>
+			<label kind="guard" x="442" y="110">time &gt;= 60</label>
+			<nail x="680" y="170"/>
+		</transition>
+		<transition id="id23">
+			<source ref="id15"/>
+			<target ref="id15"/>
+			<label kind="synchronisation" x="68" y="119">check_enough!</label>
+			<nail x="178" y="127"/>
+			<nail x="178" y="195"/>
+		</transition>
+		<transition id="id24">
+			<source ref="id16"/>
+			<target ref="id16"/>
+			<label kind="synchronisation" x="-25" y="178">check_enough!</label>
+			<nail x="-34" y="127"/>
+			<nail x="-34" y="195"/>
+		</transition>
+		<transition id="id25">
+			<source ref="id11"/>
+			<target ref="id16"/>
+			<label kind="assignment" x="-178" y="76">resource = orange</label>
+			<nail x="-110" y="-8"/>
+		</transition>
+		<transition id="id26">
+			<source ref="id11"/>
+			<target ref="id15"/>
+			<label kind="assignment" x="187" y="68">resource = apple</label>
+			<nail x="255" y="-8"/>
+			<nail x="255" y="76"/>
+		</transition>
+		<transition id="id27">
+			<source ref="id13"/>
+			<target ref="id11"/>
+			<label kind="assignment" x="76" y="-76">ripped = false</label>
+		</transition>
+		<transition id="id28">
+			<source ref="id14"/>
+			<target ref="id12"/>
+			<label kind="assignment" x="102" y="-229">time = 0</label>
+			<nail x="561" y="-238"/>
+			<nail x="-365" y="-238"/>
+		</transition>
+		<transition id="id29">
+			<source ref="id13"/>
+			<target ref="id14"/>
+			<label kind="assignment" x="323" y="-119">ripped = true</label>
+		</transition>
+		<transition id="id30">
+			<source ref="id12"/>
+			<target ref="id13"/>
+			<label kind="synchronisation" x="-212" y="-119">resource_ready?</label>
+		</transition>
+	</template>
+	<template>
+		<name>ConveyorBelt</name>
+		<declaration>bool new_resource;</declaration>
+		<location id="id31" x="-119" y="-25">
+		</location>
+		<init ref="id31"/>
+		<transition id="id32">
+			<source ref="id31"/>
+			<target ref="id31"/>
+			<label kind="synchronisation" x="-161" y="136">resource_ready!</label>
+			<label kind="assignment" x="-178" y="110">new_resource = true</label>
+			<nail x="-229" y="102"/>
+			<nail x="17" y="102"/>
+		</transition>
+		<transition id="id33">
+			<source ref="id31"/>
+			<target ref="id31"/>
+			<label kind="assignment" x="-187" y="-187">new_resource = false</label>
+			<nail x="25" y="-153"/>
+			<nail x="-246" y="-153"/>
+		</transition>
+	</template>
+	<system>// Place template instantiations here.
+//Process = Template();
+// List one or more processes to be composed into a system.
+system PeelingMachine, Monitoring, PeelingCheckerSensor, ConveyorBelt;
+</system>
+	<queries>
+		<query>
+			<formula>A[] not deadlock</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-11-20 15:24:59 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>
+E&lt;&gt; time &gt;= 60
+</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-11-20 15:27:45 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>A[] not (PeelingMachine.resource == PeelingMachine.orange and PeelingMachine.resource == PeelingMachine.apple)</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-11-20 15:27:25 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>E&lt;&gt; Monitoring.message_received</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-11-20 15:33:05 +0100">
+			</result>
+		</query>
+		<query>
+			<formula>PeelingMachine.ripped --&gt; PeelingMachine.resource == PeelingMachine.orange or PeelingMachine.resource == PeelingMachine.apple</formula>
+			<comment/>
+			<result outcome="success" type="quality" timestamp="2024-11-20 15:29:49 +0100">
+			</result>
+		</query>
+	</queries>
+</nta>
