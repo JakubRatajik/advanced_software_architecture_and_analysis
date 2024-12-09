@@ -1,5 +1,7 @@
 # Advanced Software Architecture and Analysis Portfolio Template
 
+Last minute, we discovered, that we cannot sucessfuly run everythink on github. We added our report latex and pdf manually. We hope it still works.
+
 - [Introduction](#introduction)
   - [.github](#github)
     - [CI/CD Workflow](#cicd-workflow)
