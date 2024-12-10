@@ -1,6 +1,9 @@
 # Advanced Software Architecture and Analysis Portfolio Template
+
+Last minute, we discovered, that we cannot sucessfuly run everything on github. We added our report latex and pdf manually. We hope it still works.
+
 ## How to run and build
-You need to have the Docker Desktop application installed. For building and running the project, make sure that the Docker Desktop is running and run the 'docker compose up' command in the root directory.
+You need to have the Docker Desktop application installed. For building and running the project, make sure that the Docker Desktop is running and run the 'docker compose up' command in the root directory of the project.
 
 ## structure
 - [Introduction](#introduction)
